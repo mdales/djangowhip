@@ -69,7 +69,8 @@ def division_info(request, division_id):
     
             point = {'latitude': c.lat,
                 'longitude': c.lon,
-                'voteyes': vote.vote.lower() == 'aye'}
+                'voteyes': vote.vote.lower() == 'aye',
+                'mp': vote.mp}
         except ConstintuencyInfo.DoesNotExist:
             errors += 1
         else:

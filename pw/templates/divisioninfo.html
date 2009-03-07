@@ -38,11 +38,21 @@
 		
 		{% for point in points %}
 			var point = new GLatLng({{point.latitude}}, {{point.longitude}});
+			
 			{% if point.voteyes %}
-         		map.addOverlay(new GMarker(point, yellowIcon));
+         		var marker = new GMarker(point, yellowIcon);
 			{% else %}
-         		map.addOverlay(new GMarker(point));
+         		var marker = new GMarker(point);
 			{% endif %}
+			map.addOverlay(marker);
+			
+
+			GEvent.addListener(marker, "click", function() {
+				var point = new GLatLng({{point.latitude}}, {{point.longitude}});
+				
+				map.openInfoWindowHtml(point, "<p>MP: {{point.mp.title}} {{point.mp.first_name}} {{point.mp.last_name}}</p>");
+         });
+
 		{% endfor %}
       }
     }
