@@ -15,6 +15,14 @@ from django import forms
 from djangowhip import settings
 from djangowhip.pw.models import *
 
+
+def mp_list(request):
+    mp_list = MP.objects.all()
+    
+    return render_to_response('mplist.html',
+        {'mp_list': mp_list})
+
+
 def mp_info(request, mp_id):
     
     mp = get_object_or_404(MP, mp_id=mp_id)
