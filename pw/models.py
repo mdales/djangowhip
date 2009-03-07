@@ -1,8 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
-
 class Division(models.Model):
     division_id = models.IntegerField(primary_key=True)
     valid = models.IntegerField()
@@ -34,11 +31,14 @@ class MOffice(models.Model):
     
     
 class MP(models.Model):
+    # here I'm afraid we need to deviate from the sql from public whip
+    # they use first_name, last_name, constituency, and entered/left_house as key
+    
     mp_id = models.IntegerField(primary_key=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)    
     title = models.CharField(max_length=100)
-    #constintuency = models.CharField(max_length=100)
+    constituency = models.CharField(max_length=100)
     party = models.CharField(max_length=100)
     entered_house = models.DateField()
     left_house = models.DateField()

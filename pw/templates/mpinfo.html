@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key={{GOOGLE_MAPS_API_KEY}}"
+      type="text/javascript"></script>
+    <script type="text/javascript">
+
+    //<![CDATA[
+
+    function load() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("map"));
+        map.addControl(new GSmallMapControl());
+        map.addControl(new GMapTypeControl());
+        map.setCenter(new GLatLng(53.7419, -1.5419), 5);
+		map.enableInfoWindow();
+		
+		{% for point in points %}
+			var point = new GLatLng({{point.latitude}}, {{point.longitude}});
+         	map.addOverlay(new GMarker(point));
+		{% endfor %}
+      }
+    }
+
+
+	$(document).ready(function()
+		{
+			load();
+		}
+	);
+		
+    //]]>
+    </script>
+{% endblock %}
+
+{% block content %}
+
+	<h2>{{mp.title}} {{mp.first_name}} {{mp.last_name}}</h2>
+	
+	<p>Member of the House of {{mp.house}} for {{mp.constituency|safe}}.</p>
+
+    <div id="map" style="width:300;height:400px"></div>
+
+
+{% endblock %}
