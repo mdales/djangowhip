@@ -6,7 +6,7 @@
 
 <ul>
 	{% for mp in mp_list %}
-		<li><a href="/pw/mp/{{mp.mp_id}}/">{{mp.title}} {{mp.first_name}} {{mp.last_name}}</a> {{mp.constituency|safe}}</li>
+		<li><a href="/mp/{{mp.mp_id}}/">{{mp.title}} {{mp.first_name}} {{mp.last_name}}</a> {{mp.constituency|safe}}</li>
 	{% endfor %}
 </ul>
 

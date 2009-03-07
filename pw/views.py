@@ -16,8 +16,13 @@ from djangowhip import settings
 from djangowhip.pw.models import *
 
 
+def overview(request):
+    return render_to_response('overview.html')
+
+
+
 def mp_list(request):
-    mp_list = MP.objects.all().order_by('last_name')
+    mp_list = MP.objects.all()#.order_by('last_name')
     
     return render_to_response('mplist.html',
         {'mp_list': mp_list})
@@ -30,7 +35,7 @@ def mp_info(request, mp_id):
     # we want a lat/long for this MP's constituency
     t = TWFY.TWFY(settings.TWFY_API_KEY)
     res = t.twfy.getGeometry(output='js', name=mp.constituency)
-    data = simplejson.loads(res)
+    data = simplejson.loads(str(res))
     
     
     point = {'latitude': data['centre_lat'],
@@ -74,6 +79,7 @@ def division_info(request, division_id):
         {'division': division,
         'errors': errors,
         'points': points,
+        'GOOGLE_MAPS_API_KEY': settings.GOOGLE_MAPS_API_KEY,
         'vote_count': len(vote_list),
         })
 

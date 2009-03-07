@@ -19,7 +19,7 @@ urlpatterns = patterns('',
 )
 
 
-urlpatterns += patterns('', (r'^pw/', include('pw.urls')))
+urlpatterns += patterns('', (r'^', include('pw.urls')))
 
 
 
