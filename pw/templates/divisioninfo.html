@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key={{GOOGLE_MAPS_API_KEY}}"
+      type="text/javascript"></script>
+    <script type="text/javascript">
+
+    //<![CDATA[
+
+    function load() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("map"));
+        map.addControl(new GSmallMapControl());
+        map.addControl(new GMapTypeControl());
+        map.setCenter(new GLatLng(53.7419, -1.5419), 5);
+		map.enableInfoWindow();
+		
+		
+		var markerImage = [
+		"http://www.google.com/intl/en_ALL/mapfiles/marker.png",
+		"http://maps.google.com/mapfiles/dd-start.png",
+		"http://maps.google.com/mapfiles/dd-end.png",
+		"http://esa.ilmari.googlepages.com/markeryellow.png",//3 yellow
+		"http://www.google.com/uds/samples/places/temp_marker.png",//4 turquoise
+		]
+
+		var yellowIcon = new GIcon();
+		yellowIcon.image = markerImage[3];
+		yellowIcon.iconSize = new GSize(20, 34);
+		yellowIcon.iconAnchor = new GPoint(9, 34);
+
+		var turqIcon = new GIcon();
+		turqIcon.image = markerImage[4];
+		turqIcon.iconSize = new GSize(20, 34);
+		turqIcon.iconAnchor = new GPoint(9, 34);
+		
+		
+		{% for point in points %}
+			var point = new GLatLng({{point.latitude}}, {{point.longitude}});
+			{% if point.voteyes %}
+         		map.addOverlay(new GMarker(point, yellowIcon));
+			{% else %}
+         		map.addOverlay(new GMarker(point));
+			{% endif %}
+		{% endfor %}
+      }
+    }
+
+
+	$(document).ready(function()
+		{
+			load();
+		}
+	);
+		
+    //]]>
+    </script>
+{% endblock %}
+
+{% block content %}
+
+	<h2>{{division.division_name|safe}} {{division.division_date}}</h2>
+	
+	<p>{{division.motion|safe}}.</p>
+	
+	<p>We have into on {{vote_count}} votes. We had {{errors}} errors in getting pin data.</p>
+
+    <div id="map" style="width:500;height:700px"></div>
+
+
+{% endblock %}

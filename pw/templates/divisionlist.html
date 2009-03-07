@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>List of Divisions</h2>
+
+<ul>
+	{% for division in division_list %}
+		<li><a href="/pw/division/{{division.division_id}}/">{{division.division_name}} {{division.division_date}}</a></li>
+	{% endfor %}
+</ul>
+
+{% endblock %}

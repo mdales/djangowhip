@@ -51,9 +51,19 @@ class MP(models.Model):
     
 
 class Vote(models.Model):
+    # we need to manually add an id field in the sql :/
     division = models.ForeignKey(Division)
     mp = models.ForeignKey(MP)
     vote = models.TextField()
     
     def __unicode__(self):
         return "%s voted %s on %s" % (self.mp, self.division, self.vote)
+        
+        
+        
+class ConstintuencyInfo(models.Model):
+    name = models.CharField(max_length=100)
+    lat = models.FloatField()
+    lon = models.FloatField()
+    
+    
