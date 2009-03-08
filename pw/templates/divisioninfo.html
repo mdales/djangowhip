@@ -50,7 +50,7 @@
 			GEvent.addListener(marker, "click", function() {
 				var point = new GLatLng({{point.latitude}}, {{point.longitude}});
 				
-				map.openInfoWindowHtml(point, "<p>MP: {{point.mp.title}} {{point.mp.first_name}} {{point.mp.last_name}}</p>");
+				map.openInfoWindowHtml(point, "<p>MP: {{point.mp.title}} {{point.mp.first_name}} {{point.mp.last_name}}<br>Party: {{point.mp.party}}<br>				Constituency: {{point.mp.constituency}}</p>");
          });
 
 		{% endfor %}
@@ -75,6 +75,8 @@
 	<p>{{division.motion|safe}}.</p>
 	
 	<p>We have into on {{vote_count}} votes. We had {{errors}} errors in getting pin data.</p>
+	
+	<p>Yellow pin - Aye. Red pin - no.</p>
 
     <div id="map" style="width:500;height:700px"></div>
 
