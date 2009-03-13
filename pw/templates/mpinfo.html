@@ -38,9 +38,30 @@
 
 	<h2>{{mp.title}} {{mp.first_name}} {{mp.last_name}}</h2>
 	
-	<p>Member of the House of {{mp.house}} for {{mp.constituency|safe}}.</p>
+	<p>{{mp.party}} member of the House of {{mp.house}} for {{mp.constituency|safe}}.</p>
 
     <div id="map" style="width:300;height:400px"></div>
 
+	<p>This MP has voted yes on {{yes_count}} occasions, and no on {{no_count}} occasions.</p>
+	
+	<h3>The yes list</h3>
+	
+	<p>{{mp.title}} {{mp.first_name}} {{mp.last_name}} voted yes on the following issues:</p>
+	
+	<ul>
+		{% for vote in yes_list %}
+			<li><a href="/division/{{vote.division.id}}/">{{vote.division.division_name|safe}} - {{vote.division.division_date}}</a></li>
+		{% endfor %}
+	</ul>
+	
+	<h3>The no list</h3>
+	
+	<p>{{mp.title}} {{mp.first_name}} {{mp.last_name}} voted no on the following issues:</p>
+	
+	<ul>
+		{% for vote in no_list %}
+			<li><a href="/division/{{vote.division.id}}/">{{vote.division.division_name|safe}} - {{vote.division.division_date}}</a></li>
+		{% endfor %}
+	</ul>
 
 {% endblock %}

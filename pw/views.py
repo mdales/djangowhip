@@ -40,22 +40,27 @@ def mp_info(request, mp_id):
     mp = get_object_or_404(MP, mp_id=mp_id)
     
     # we want a lat/long for this MP's constituency
-    t = TWFY.TWFY(settings.TWFY_API_KEY)
-    res = t.twfy.getGeometry(output='js', name=mp.constituency)
-    data = simplejson.loads(str(res))
+    try:
+        c = ConstintuencyInfo.objects.get(name=mp.constituency)
+        point = {'latitude': c.lat,
+            'longitude': c.lon}
+    except ConstintuencyInfo.DoesNotExist:
+        point = None
     
-    
-    point = {'latitude': data['centre_lat'],
-        'longitude': data['centre_lon']}
-    
+    yes_list = Vote.objects.filter(mp=mp, vote="aye").order_by('division__division_date').reverse()
+    no_list = Vote.objects.filter(mp=mp, vote="no").order_by('division__division_date').reverse()
     
     return render_to_response('mpinfo.html', 
         {'GOOGLE_MAPS_API_KEY': settings.GOOGLE_MAPS_API_KEY, 
-        'mp': mp, 'points': [point,]},)
+        'mp': mp, 'points': [point,],
+        'yes_count': len(yes_list),
+        'no_count': len(no_list),
+        'yes_list': yes_list,
+        'no_list': no_list},)
 
 
 def division_list(request):
-    div_list = Division.objects.all().order_by('division_date')
+    div_list = Division.objects.all().order_by('division_date').reverse()
     
     return render_to_response('divisionlist.html',
         {'division_list': div_list})
